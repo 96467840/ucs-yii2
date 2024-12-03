@@ -2,10 +2,12 @@
 
 namespace frontend\controllers;
 
+use common\repositories\PagesRepository;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\base\Module;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -21,6 +23,11 @@ use frontend\models\ContactForm;
  */
 class SiteController extends Controller
 {
+    public function __construct(string $id, Module $module, private readonly PagesRepository $repository)
+    {
+        parent::__construct($id, $module);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -75,7 +82,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $page = $this->repository->find(1);
+        return $this->render('index', ['page' => $page]);
     }
 
     /**

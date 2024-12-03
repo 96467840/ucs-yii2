@@ -29,13 +29,18 @@
         "codeception/module-asserts": "^3.0 || ^1.1",
         "codeception/module-yii2": "^1.1",
         "codeception/module-filesystem": "^3.0 || ^2.0 || ^1.1",
-        "codeception/verify": "^3.0 || ^2.2"
+        "codeception/verify": "^3.0 || ^2.2",
+        "vimeo/psalm": "^6.0@dev"
     },
     "autoload-dev": {
         "psr-4": {
             "common\\tests\\": ["common/tests/", "common/tests/_support"],
             "backend\\tests\\": ["backend/tests/", "backend/tests/_support"],
-            "frontend\\tests\\": ["frontend/tests/", "frontend/tests/_support"]
+            "frontend\\tests\\": ["frontend/tests/", "frontend/tests/_support"],
+            "common\\": "common",
+            "backend\\": "backend",
+            "console\\": "console",
+            "frontend\\": "frontend"
         }
     },
     "config": {
@@ -52,5 +57,8 @@
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ]
+    ],
+    "scripts": {
+        "psalm": "./vendor/bin/psalm --no-cache"
+    }
 }

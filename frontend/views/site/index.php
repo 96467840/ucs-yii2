@@ -1,7 +1,8 @@
 <?php
 
 /** @var yii\web\View $this */
-
+/** @var \common\models\Page $page */
+var_export($page);
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">

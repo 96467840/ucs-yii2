@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="3"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    cacheDirectory="console/runtime"
+    sealAllMethods="true"
+    autoloader="./vendor/yiisoft/yii2/Yii.php"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
+>
+    <projectFiles>
+        <!--<directory name="environments" />-->
+        <directory name="backend" />
+        <directory name="common" />
+        <directory name="console" />
+        <!--<directory name="frontend" />-->
+        <ignoreFiles>
+            <directory name="vendor" />
+            <directory name="frontend/views/site/" />
+            <file name="frontend/views/layouts/main.php" />
+            <directory name="console/migrations/" />
+            <file name="console/models/BaseMigration.php" />
+            <directory name="common/tests" />
+            <directory name="common/mail/" />
+            <file name="common/widgets/Alert.php" />
+            <file name="common/models/User.php" />
+            <file name="common/models/LoginForm.php" />
+            <file name="common/config/__autocomplete.php" />
+            <file name="backend/web/index-test.php" />
+            <file name="backend/views/layouts/main.php" />
+            <file name="backend/views/layouts/blank.php" />
+            <file name="backend/controllers/SiteController.php" />
+            <file name="" />
+            <file name="" />
+
+            <directory name="backend/views/site/" />
+            <directory name="backend/tests/" />
+            <directory name="backend/config" />
+
+
+
+
+
+        </ignoreFiles>
+    </projectFiles>
+</psalm>
