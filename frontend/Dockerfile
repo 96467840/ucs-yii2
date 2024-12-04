@@ -2,3 +2,6 @@ FROM yiisoftware/yii2-php:8.3-apache
 
 # Change document root for Apache
 RUN sed -i -e 's|/app/web|/app/frontend/web|g' /etc/apache2/sites-available/000-default.conf
+
+RUN docker-php-ext-enable xdebug
+COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
