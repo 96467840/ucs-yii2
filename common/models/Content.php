@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use common\traits\ExtendedDataTrait;
+
 /**
  * This is the model class for table "contents".
  *
@@ -20,6 +22,7 @@ namespace common\models;
  * @property int $is_full_text_search Если 1, то единица контента участвует в полнотекстовом поиске
  * @property int $is_blocked Для блокирования
  * @property string|null $extended_data
+ * @property string|null $external_id
  *
  * @property Content[] $contents
  * @property Page $page
@@ -28,6 +31,8 @@ namespace common\models;
  */
 class Content extends \yii\db\ActiveRecord
 {
+    use ExtendedDataTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -42,7 +47,7 @@ class Content extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['created_at', 'updated_at', 'extended_data'], 'safe'],
+            [['created_at', 'updated_at', 'extended_data', 'external_id'], 'safe'],
             [['page_id', 'template_id', 'parent_id', 'integer', 'is_full_text_search', 'is_blocked'], 'integer'],
             [['float'], 'number'],
             [['text'], 'string'],

@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use common\traits\ExtendedDataTrait;
+
 /**
  * This is the model class for table "templates".
  *
@@ -13,11 +15,14 @@ namespace common\models;
  * @property string|null $template HTML шаблон.
  * @property int $is_blocked Для блокирования
  * @property string|null $extended_data
+ * @property string|null $external_id
  *
  * @property Content[] $contents
  */
 class Template extends \yii\db\ActiveRecord
 {
+    use ExtendedDataTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -32,7 +37,7 @@ class Template extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['created_at', 'updated_at', 'extended_data'], 'safe'],
+            [['created_at', 'updated_at', 'extended_data', 'external_id'], 'safe'],
             [['key', 'title'], 'required'],
             [['template'], 'string'],
             [['is_blocked'], 'integer'],

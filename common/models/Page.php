@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use common\traits\ExtendedDataTrait;
+
 /**
  * This is the model class for table "pages".
  *
@@ -15,6 +17,7 @@ namespace common\models;
  * @property int $is_blocked Для блокирования
  * @property int|null $parent_id ID родительского узла. Для подразделов
  * @property string|null $extended_data
+ * @property string|null $external_id
  *
  * @property Content[] $contents
  * @property Page[] $pages
@@ -22,6 +25,8 @@ namespace common\models;
  */
 class Page extends \yii\db\ActiveRecord
 {
+    use ExtendedDataTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -36,7 +41,7 @@ class Page extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['created_at', 'updated_at', 'seo', 'extended_data'], 'safe'],
+            [['created_at', 'updated_at', 'seo', 'extended_data', 'external_id'], 'safe'],
             [['path'], 'required'],
             [['full_text_search'], 'string'],
             [['is_blocked', 'parent_id'], 'integer'],

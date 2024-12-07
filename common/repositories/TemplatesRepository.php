@@ -18,4 +18,18 @@ class TemplatesRepository extends AbstractRepository
     {
         parent::__construct(Template::class);
     }
+
+    /**
+     * Найти шаблон по внешнему идентификатору
+     *
+     * @param string $external_id
+     * @return Template|null
+     */
+    public function getByExternal(string $external_id): ?Template
+    {
+        /** @var Template|null $item */
+        $item = Template::find()->where(['external_id' => $external_id])->one();
+
+        return $item;
+    }
 }
