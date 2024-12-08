@@ -8,7 +8,6 @@ use common\models\Template;
 use common\repositories\ContentsRepository;
 use common\repositories\PagesRepository;
 use common\repositories\TemplatesRepository;
-use http\Exception\RuntimeException;
 use yii\db\Expression;
 
 readonly class ImportService
@@ -101,14 +100,14 @@ readonly class ImportService
             if (!empty($page['parent_id'])) {
                 if (empty($map[$page['parent_id']])) {
                     // в теории мы это должны отловить в checkAndReorderPages($pages)
-                    throw new RuntimeException('Не могу отресолвить внешний ID старницы');
+                    throw new \RuntimeException('Не могу отресолвить внешний ID старницы');
                 }
                 $page['parent_id'] = $map[$page['parent_id']];
             }
 
             if (!empty($page['template_id'])) {
                 if (empty($templates_ids_map[$page['template_id']])) {
-                    throw new RuntimeException('Не могу отресолвить ID шаблона ' . $page['template_id']);
+                    throw new \RuntimeException('Не могу отресолвить ID шаблона ' . $page['template_id']);
                 }
             }
 
