@@ -1,12 +1,43 @@
 {
+  "clear_old": true,
   "templates": [
     {
-      "external_id": 1,
+      "external_id": "template_page",
       "key": "1",
       "title": "1",
       "template": null
     }
   ],
-  "pages": [],
-  "contents": []
+  "pages": [
+    {
+      "external_id": "1",
+      "path": "1",
+      "title": "1",
+      "template": null,
+      "parent_id": "2",
+      "template_id": "template_page"
+    },
+    {
+      "external_id": "2",
+      "path": "2",
+      "title": "1",
+      "template": null,
+      "parent_id": null,
+      "template_id": null
+    }
+  ],
+  "contents": [
+    {
+      "external_id": "1",
+      "key": "1",
+      "type": "2",
+      "title": "2",
+      "parent_id": null,
+      "template_id": null,
+      "page_id": "2",
+      "pages": [
+        "1"
+      ]
+    }
+  ]
 }

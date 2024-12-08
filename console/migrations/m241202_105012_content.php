@@ -21,11 +21,19 @@ class m241202_105012_content extends BaseMigration
             'title' => $this->string()->comment('Название единицы контента'),
 
             'key' => $this->string()->comment('Ключ контента'),
-            'type' => $this->string()->comment('Тип контента: list, list_item, text'),
+            'type' => $this->string()->comment('Тип контента'),
+
+            'text' => $this->text()->comment('Текстовое представление контента'),
 
             'float' => $this->float()->comment('Дробное представление контента'),
             'integer' => $this->bigInteger()->comment('Целочисленное представление контента'),
-            'text' => $this->text()->comment('Текстовое представление контента'),
+            'string' => $this->string(1024)->comment('Строковое представление контента '),
+
+            'float_max' => $this->float()->comment('Максимальное значение дробного представления контента'),
+            'integer_max' => $this->bigInteger()->comment(
+                'Максимальное значение целочисленного представления контента'
+            ),
+            'string_max' => $this->string(1024)->comment('Максимальное значение строкового представления контента '),
 
             'is_full_text_search' => $this->smallInteger()->notNull()->defaultValue(0)
                 ->comment('Если 1, то единица контента участвует в полнотекстовом поиске'),

@@ -14,7 +14,7 @@ class m241202_103039_templates extends BaseMigration
             'created_at' => $this->getTypeForCreatedAtField(),
             'updated_at' => $this->getTypeForUpdatedAtField(),
 
-            'key' => $this->string()->notNull()->unique()->comment('Код шаблона: page_template_simple'),
+            'key' => $this->string()->notNull()->unique()->comment('Код шаблона'),
             'title' => $this->string()->notNull()->comment('Название шаблона'),
             'template' => $this->text()->comment('HTML шаблон.'),
 

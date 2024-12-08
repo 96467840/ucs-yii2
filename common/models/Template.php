@@ -10,7 +10,7 @@ use common\traits\ExtendedDataTrait;
  * @property int $id
  * @property string $created_at
  * @property string $updated_at
- * @property string $key Код шаблона: page_template_simple
+ * @property string $key Код шаблона
  * @property string $title Название шаблона
  * @property string|null $template HTML шаблон.
  * @property int $is_blocked Для блокирования
@@ -55,7 +55,7 @@ class Template extends \yii\db\ActiveRecord
             'id' => 'ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'key' => 'Код шаблона: page_template_simple',
+            'key' => 'Код шаблона',
             'title' => 'Название шаблона',
             'template' => 'HTML шаблон.',
             'is_blocked' => 'Для блокирования',

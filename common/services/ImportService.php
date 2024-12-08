@@ -2,6 +2,7 @@
 
 namespace common\services;
 
+use common\helpers\TreeHelper;
 use common\models\Content;
 use common\models\Page;
 use common\models\Template;
@@ -38,6 +39,69 @@ readonly class ImportService
         $template_ids = $this->importTemplates($clear_old, $json['templates'] ?? []);
 
         $page_ids = $this->importPages($clear_old, $json['pages'] ?? [], $template_ids);
+
+        $this->importContents($clear_old, $json['contents'] ?? [], $template_ids, $page_ids);
+    }
+
+    /**
+     * Импортируем контент
+     *
+     * @param bool $clear_old
+     * @param array $contents
+     * @param array $templates_ids_map
+     * @param array $pages_ids_map
+     * @return void
+     * @throws \yii\db\Exception
+     */
+    private function importContents(
+        bool $clear_old,
+        array $contents,
+        array $templates_ids_map,
+        array $pages_ids_map
+    ): void {
+        $map = [];
+        foreach ($contents as $content) {
+            $item = $clear_old ? null : $this->contents->getByExternal($content['external_id']);
+            if (!$item) {
+                $item = new Content();
+            }
+
+            // ресолвим парента. в источнике ссылки на external_id.
+            if (!empty($content['parent_id'])) {
+                if (empty($map[$content['parent_id']])) {
+                    throw new \RuntimeException(
+                        'Не могу отресолвить внешний ID элемента контента ' . $content['parent_id']
+                    );
+                }
+                $content['parent_id'] = $map[$content['parent_id']];
+            }
+
+            if (!empty($content['template_id'])) {
+                if (empty($templates_ids_map[$content['template_id']])) {
+                    throw new \RuntimeException('Не могу отресолвить ID шаблона ' . $content['template_id']);
+                }
+                $content['template_id'] = $templates_ids_map[$content['template_id']];
+            }
+
+            if (!empty($content['page_id'])) {
+                if (empty($pages_ids_map[$content['page_id']])) {
+                    throw new \RuntimeException('Не могу отресолвить ID страницы ' . $content['page_id']);
+                }
+                $content['page_id'] = $pages_ids_map[$content['page_id']];
+            }
+
+            $item->load($content, '');
+            if (!$item->validate()) {
+                throw new \RuntimeException(var_export($item->errors, true));
+            }
+
+            $this->contents->save($item);
+            $map[$content['external_id']] = $item->id;
+
+            if (!empty($content['pages'])) {
+                // todo
+            }
+        }
     }
 
     /**
@@ -78,9 +142,9 @@ readonly class ImportService
     private function checkAndReorderPages(array $pages): array
     {
         // todo сделать переосортировку массива страниц чтобы все зависимые страницы были после своих парентов
-        // просто соберем дерево и развернем дерево в массив
+        $tree = TreeHelper::arrayToTree($pages, 'external_id', 'parent_id');
 
-        return $pages;
+        return TreeHelper::treeToArray($tree);
     }
 
     private function importPages(bool $clear_old, array $pages, array $templates_ids_map): array
@@ -100,7 +164,7 @@ readonly class ImportService
             if (!empty($page['parent_id'])) {
                 if (empty($map[$page['parent_id']])) {
                     // в теории мы это должны отловить в checkAndReorderPages($pages)
-                    throw new \RuntimeException('Не могу отресолвить внешний ID старницы');
+                    throw new \RuntimeException('Не могу отресолвить внешний ID страницы');
                 }
                 $page['parent_id'] = $map[$page['parent_id']];
             }
@@ -109,6 +173,7 @@ readonly class ImportService
                 if (empty($templates_ids_map[$page['template_id']])) {
                     throw new \RuntimeException('Не могу отресолвить ID шаблона ' . $page['template_id']);
                 }
+                $page['template_id'] = $templates_ids_map[$page['template_id']];
             }
 
             $item->load($page, '');

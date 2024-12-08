@@ -14,7 +14,7 @@ class m241202_092841_ucs_pages extends BaseMigration
             'created_at' => $this->getTypeForCreatedAtField(),
             'updated_at' => $this->getTypeForUpdatedAtField(),
 
-            'path' => $this->string()->notNull()->unique()->comment('URI. Полный путь без домена: "about/info/detail"'),
+            'path' => $this->string()->notNull()->unique()->comment('URI. Полный путь без домена'),
             'title' => $this->string()->comment('Название страницы'),
             'seo' => $this->json()->comment('SEO данные'),
 
