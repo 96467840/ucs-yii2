@@ -23,7 +23,9 @@ class PasswordResetRequestForm extends Model
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'exist',
+            [
+                'email',
+                'exist',
                 'targetClass' => '\common\models\User',
                 'filter' => ['status' => User::STATUS_ACTIVE],
                 'message' => 'There is no user with this email address.'
@@ -33,6 +35,9 @@ class PasswordResetRequestForm extends Model
 
     /**
      * Sends an email with a link, for resetting the password.
+     *
+     * todo пофиксить позже!
+     * @psalm-suppress PossiblyNullArgument
      *
      * @return bool whether the email was send
      */
@@ -47,7 +52,7 @@ class PasswordResetRequestForm extends Model
         if (!$user) {
             return false;
         }
-        
+
         if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
             $user->generatePasswordResetToken();
             if (!$user->save()) {

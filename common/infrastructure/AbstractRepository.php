@@ -37,10 +37,10 @@ abstract class AbstractRepository
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return T
      */
-    public function get(string $id): ActiveRecord
+    public function get(int $id): ActiveRecord
     {
         $model = $this->find($id);
 
@@ -52,10 +52,10 @@ abstract class AbstractRepository
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return T|null
      */
-    public function find(string $id): ?ActiveRecord
+    public function find(int $id): ?ActiveRecord
     {
         $findFunction = [$this->modelClass, 'findOne'];
 

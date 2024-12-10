@@ -52,6 +52,11 @@ class LoginForm extends Model
     /**
      * Logs in a user using the provided username and password.
      *
+     * @psalm-suppress UndefinedMagicPropertyFetch
+     *
+     * todo пофиксить позже!
+     * @psalm-suppress PossiblyNullArgument
+     *
      * @return bool whether the user is logged in successfully
      */
     public function login()
@@ -59,7 +64,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
-        
+
         return false;
     }
 

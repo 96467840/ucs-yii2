@@ -26,6 +26,7 @@ readonly class ImportService
      *      clear_old: bool,
      *      pages:   array{},
      *      templates: array{},
+     *      contents: array{}
      *  } $json
      * @return void
      */

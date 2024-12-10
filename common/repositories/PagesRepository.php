@@ -7,8 +7,8 @@ use common\models\Page;
 use common\models\Template;
 
 /**
- * @method Page get(string $id)
- * @method Page|null find(string $id)
+ * @method Page get(int $id)
+ * @method Page|null find(int $id)
  * @method Page save(Page $model)
  *
  * @extends AbstractRepository<Page>

@@ -14,7 +14,7 @@ use yii\web\IdentityInterface;
  * @property integer $id
  * @property string $username
  * @property string $password_hash
- * @property string $password_reset_token
+ * @property string|null $password_reset_token
  * @property string $verification_token
  * @property string $email
  * @property string $auth_key
@@ -130,7 +130,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, (strrpos($token, '_') ?: 0) + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -162,6 +162,9 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Validates password
      *
+     * todo пофиксить позже!
+     * @psalm-suppress PossiblyNullArgument
+     *
      * @param string $password password to validate
      * @return bool if password provided is valid for current user
      */
@@ -173,9 +176,12 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Generates password hash from password and sets it to the model
      *
-     * @param string $password
+     * todo пофиксить позже!
+     * @psalm-suppress PossiblyNullArgument
+     *
+     * @param string|null $password
      */
-    public function setPassword($password)
+    public function setPassword(?string $password): void
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }

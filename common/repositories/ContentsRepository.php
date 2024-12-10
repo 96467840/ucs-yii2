@@ -6,8 +6,8 @@ use common\infrastructure\AbstractRepository;
 use common\models\Content;
 
 /**
- * @method Content get(string $id)
- * @method Content|null find(string $id)
+ * @method Content get(int $id)
+ * @method Content|null find(int $id)
  * @method Content save(Content $model)
  *
  * @extends AbstractRepository<Content>
