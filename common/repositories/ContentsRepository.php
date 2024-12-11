@@ -4,6 +4,7 @@ namespace common\repositories;
 
 use common\infrastructure\AbstractRepository;
 use common\models\Content;
+use common\models\Template;
 
 /**
  * @method Content get(int $id)
@@ -33,4 +34,15 @@ class ContentsRepository extends AbstractRepository
         return $item;
     }
 
+    public function findAllForPage(int $page_id): array
+    {
+        $contents = Content::find()->alias('c')
+            ->leftJoin(Template::tableName() . ' as t', 't.id = c.template_id')
+            ->where(['c.page_id' => $page_id, 'c.is_blocked' => 0])
+            ->select(['c.*'])
+            ->asArray()
+            ->all();
+
+        return $contents;
+    }
 }

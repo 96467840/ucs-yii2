@@ -1,4 +1,7 @@
 <?php
+
+use frontend\infrastructure\PageUrlRule;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -36,14 +39,22 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
+            'suffix' => '.html',
             'rules' => [
+                'site/<action>' => 'site/<action>',
+                [
+                    'class' => PageUrlRule::class,
+                ],
             ],
         ],
-        */
+        /**/
     ],
+    //'defaultRoute' => 'main/index',
+    //'catchAll' => ['site/offline'],
     'params' => $params,
 ];

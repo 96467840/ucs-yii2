@@ -23,11 +23,6 @@ use frontend\models\ContactForm;
  */
 class SiteController extends Controller
 {
-    public function __construct(string $id, Module $module, private readonly PagesRepository $repository)
-    {
-        parent::__construct($id, $module);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -83,8 +78,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $page = $this->repository->find(1);
-        return $this->render('index', ['page' => $page]);
+        return $this->render('index');
     }
 
     /**

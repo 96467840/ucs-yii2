@@ -34,4 +34,12 @@ class PagesRepository extends AbstractRepository
         return $item;
     }
 
+    public function findByPath(string $path): ?Page
+    {
+        /** @var Page|null $item */
+        $item = Page::find()->where(['path' => strtolower($path), 'is_blocked' => 0])->one();
+
+        return $item;
+    }
+
 }

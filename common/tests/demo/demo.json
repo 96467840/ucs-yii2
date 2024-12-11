@@ -11,16 +11,16 @@
   "pages": [
     {
       "external_id": "1",
-      "path": "1",
-      "title": "1",
+      "path": "test/test",
+      "title": "Test  test",
       "template": null,
       "parent_id": "2",
       "template_id": "template_page"
     },
     {
       "external_id": "2",
-      "path": "2",
-      "title": "1",
+      "path": "test",
+      "title": "test",
       "template": null,
       "parent_id": null,
       "template_id": null
