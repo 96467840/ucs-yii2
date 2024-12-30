@@ -2,9 +2,11 @@
 
 namespace common\repositories;
 
+use common\helpers\TreeHelper;
 use common\infrastructure\AbstractRepository;
 use common\models\Content;
 use common\models\Template;
+use yii\helpers\ArrayHelper;
 
 /**
  * @method Content get(int $id)
@@ -26,7 +28,7 @@ class ContentsRepository extends AbstractRepository
      * @param string $external_id
      * @return Content|null
      */
-    public function getByExternal(string $external_id): ?Content
+    public function findByExternal(string $external_id): ?Content
     {
         /** @var Content|null $item */
         $item = Content::find()->where(['external_id' => $external_id])->one();
@@ -39,10 +41,14 @@ class ContentsRepository extends AbstractRepository
         $contents = Content::find()->alias('c')
             ->leftJoin(Template::tableName() . ' as t', 't.id = c.template_id')
             ->where(['c.page_id' => $page_id, 'c.is_blocked' => 0])
-            ->select(['c.*'])
+            ->select([
+                'c.*',
+                't.key as template_key',
+                't.template as template',
+            ])
             ->asArray()
             ->all();
 
-        return $contents;
+        return TreeHelper::arrayToTree($contents);
     }
 }

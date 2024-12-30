@@ -62,7 +62,7 @@ readonly class ImportService
     ): void {
         $map = [];
         foreach ($contents as $content) {
-            $item = $clear_old ? null : $this->contents->getByExternal($content['external_id']);
+            $item = $clear_old ? null : $this->contents->findByExternal($content['external_id']);
             if (!$item) {
                 $item = new Content();
             }
@@ -119,7 +119,7 @@ readonly class ImportService
         $map = []; // карта соответствия внешних id к внутренним
 
         foreach ($templates as $template) {
-            $item = $clear_old ? null : $this->templates->getByExternal($template['external_id']);
+            $item = $clear_old ? null : $this->templates->findByExternal($template['external_id']);
             if (!$item) {
                 $item = new Template();
             }
@@ -156,7 +156,7 @@ readonly class ImportService
         $pages = $this->checkAndReorderPages($pages);
 
         foreach ($pages as $page) {
-            $item = $clear_old ? null : $this->pages->getByExternal($page['external_id']);
+            $item = $clear_old ? null : $this->pages->findByExternal($page['external_id']);
             if (!$item) {
                 $item = new Page();
             }

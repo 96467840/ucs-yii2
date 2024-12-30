@@ -25,7 +25,7 @@ class TemplatesRepository extends AbstractRepository
      * @param string $external_id
      * @return Template|null
      */
-    public function getByExternal(string $external_id): ?Template
+    public function findByExternal(string $external_id): ?Template
     {
         /** @var Template|null $item */
         $item = Template::find()->where(['external_id' => $external_id])->one();
