@@ -11,7 +11,7 @@ class RenderContentServiceTest extends \Codeception\Test\Unit
 {
 
     private const array TEMPLATES = [
-        'page' => '<div>{{top}}</div><div>{{contents}}</div><div>{{bottom}}</div>',
+        'page' => '{{__seotitle}}<div>{{top}}</div><div>{{contents}}</div><div>{{bottom}}</div>',
         'simple' => '|||contents|||',
         'bold' => '<b>|||contents|||</b>',
     ];
@@ -31,19 +31,39 @@ class RenderContentServiceTest extends \Codeception\Test\Unit
      * @param string $result
      * @dataProvider testRenderData
      */
-    public function testRender($contents, $globals, $html)
-    {
+    public function testRender(
+        string $testName,
+        ?string $pageTemplate,
+        ?string $pageTemplateKey,
+        array $contents,
+        array $globals,
+        string $html
+    ) {
         $service = $this->getService();
-        $result = $service->renderTemplate(TreeHelper::arrayToTree($contents), $globals, null, 'page');
+        $testGlobals = [];
+        $result = $service->renderTemplate(
+            TreeHelper::arrayToTree($contents),
+            $testGlobals,
+            $pageTemplate,
+            $pageTemplateKey
+        );
         //dd($result);
 
-        verify($result)->equals($html);
+        verify($result)->equals($html, '"' . $testName . '" failed!');
+        verify($testGlobals)->equals($globals, '"' . $testName . ' globals failed!');
     }
 
     private function testRenderData(): array
     {
         return [
+            # region simple test
             [
+                // test name
+                'simple test',
+                // page template
+                null,
+                // page template key
+                'page',
                 // source 1
                 [
                     [
@@ -52,7 +72,7 @@ class RenderContentServiceTest extends \Codeception\Test\Unit
                         "type" => "",
                         "parent_id" => null,
                         //"template_key" => 'bold',
-                        "template" => '<b>|||contents|||</b>|||sign|||',
+                        "template" => '<b>|||contents|||</b>|||bottom|||',
                     ],
                     [
                         'id' => 2,
@@ -67,12 +87,80 @@ class RenderContentServiceTest extends \Codeception\Test\Unit
                         "type" => "string",
                         'string' => '!',
                     ],
+                    [
+                        'id' => 4,
+                        "key" => "bottom",
+                        "type" => "string",
+                        'string' => 'content bottom',
+                    ],
+                    [
+                        'id' => 5,
+                        "key" => "__seotitle",
+                        "type" => "string",
+                        'string' => 'seo title',
+                    ],
                 ],
-                // result tree
-                [],
-                // string content
-                '<div></div><div><b>hello world</b>!</div><div></div>',
-            ]
+                // globals
+                [
+                    '__seotitle' => 'seo title',
+                ],
+                // result content
+                'seo title<div></div><div><b>hello world</b>!</div><div>content bottom</div>',
+            ],
+            # endregion
+
+            # region list test
+            [
+                // test name
+                'list test',
+                // page template
+                null,
+                // page template key
+                'page',
+                // source 1
+                [
+                    [
+                        'id' => 1,
+                        "key" => "",
+                        "type" => "",
+                        "parent_id" => null,
+                        //"template_key" => 'bold',
+                        "template" => '<b>|||contents|||</b>|||bottom|||',
+                    ],
+                    [
+                        'id' => 2,
+                        "key" => "",
+                        "type" => "string",
+                        "parent_id" => 1,
+                        'string' => 'hello world',
+                    ],
+                    [
+                        'id' => 3,
+                        "key" => "",
+                        "type" => "string",
+                        'string' => '!',
+                    ],
+                    [
+                        'id' => 4,
+                        "key" => "bottom",
+                        "type" => "string",
+                        'string' => 'content bottom',
+                    ],
+                    [
+                        'id' => 5,
+                        "key" => "__seotitle",
+                        "type" => "string",
+                        'string' => 'seo title',
+                    ],
+                ],
+                // globals
+                [
+                    '__seotitle' => 'seo title',
+                ],
+                // result content
+                'seo title<div></div><div><b>hello world</b>!</div><div>content bottom</div>',
+            ],
+            # endregion
         ];
     }
 
